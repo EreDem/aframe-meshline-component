@@ -20,7 +20,12 @@ AFRAME.registerComponent('meshline', {
       ],
       // Deserialize path in the form of comma-separated vec3s: `0 0 0, 1 1 1, 2 0 3`.
       parse: function (value) {
-        return value.split(',').map(AFRAME.utils.coordinates.parse);
+        // Check if value is a string (comma-separated vec3s)
+        if (typeof value === 'string') {
+          return value.split(',').map(AFRAME.utils.coordinates.parse);
+        }
+        // Assume value is already in the expected array format
+        return value.map(AFRAME.utils.coordinates.parse);
       },
       // Serialize array of vec3s in case someone does setAttribute('line', 'path', [...]).
       stringify: function (data) {
